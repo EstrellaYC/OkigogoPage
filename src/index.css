@@ -94,7 +94,7 @@
   }
   
   .section-pinned {
-    @apply w-screen h-screen relative overflow-hidden;
+    @apply relative w-full overflow-hidden lg:w-screen lg:h-screen;
   }
 }
 

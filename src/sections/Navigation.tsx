@@ -14,6 +14,14 @@ const Navigation = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -23,7 +31,7 @@ const Navigation = () => {
   };
 
   const navLinks = [
-    { label: 'Servicios', id: 'services' },
+    { label: 'Nosotros', id: 'why-tiktok' },
     { label: 'Casos', id: 'cases' },
     { label: 'Carreras', id: 'careers' },
     { label: 'Contacto', id: 'contact' },
@@ -87,48 +95,47 @@ const Navigation = () => {
           isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
       >
-        {/* Close button at top */}
-        <div className="flex justify-end p-4">
-          <button
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="p-2 text-ok-text hover:text-ok-orange transition-colors"
-            aria-label="Close menu"
-          >
-            <X size={24} />
-          </button>
-        </div>
-        
-        <div className="flex flex-col items-center justify-center px-6 -mt-16">
-          {/* Logo in menu */}
-          <div className="mb-10">
+        <div className="flex min-h-screen flex-col px-4 pb-8 pt-4">
+          <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
             <span className="font-display font-bold text-2xl text-ok-text">
               Okigog<span className="text-ok-orange">o</span>
             </span>
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="rounded-full p-2 text-ok-text hover:text-ok-orange transition-colors"
+              aria-label="Close menu"
+            >
+              <X size={24} />
+            </button>
           </div>
-          
-          <nav className="flex flex-col items-center gap-6 w-full">
+
+          <div className="flex flex-1 flex-col justify-center py-10">
+            <div className="mb-4 text-xs uppercase tracking-[0.16em] text-ok-text-secondary">
+              Navegación
+            </div>
+            <nav className="flex flex-col gap-3 w-full">
             {navLinks.map((link) => (
               <button
                 key={link.id}
                 onClick={() => scrollToSection(link.id)}
-                className="text-xl font-display font-semibold text-ok-text hover:text-ok-orange transition-colors py-2 w-full text-center"
+                className="panel w-full px-5 py-4 text-left text-xl font-display font-semibold text-ok-text hover:border-ok-orange/40 hover:text-ok-orange transition-colors"
               >
                 {link.label}
               </button>
             ))}
-          </nav>
-          
-          <button 
-            onClick={() => scrollToSection('contact')}
-            className="btn-primary text-base mt-10 w-full max-w-xs"
-          >
-            Agenda una llamada
-          </button>
-          
-          {/* Contact info */}
-          <div className="mt-10 text-center">
-            <p className="text-sm text-ok-text-secondary">hola@okigogo.com</p>
-            <p className="text-sm text-ok-text-secondary mt-1">CDMX, México</p>
+            </nav>
+
+            <button 
+              onClick={() => scrollToSection('contact')}
+              className="btn-primary text-base mt-6 w-full"
+            >
+              Agenda una llamada
+            </button>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-ok-text-secondary">
+            <p>hola@okigogo.com</p>
+            <p className="mt-1">CDMX, México</p>
           </div>
         </div>
       </div>

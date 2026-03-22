@@ -1,7 +1,7 @@
 import { useState, useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Send, Calendar, MessageCircle } from 'lucide-react';
+import { Send, MessageCircle } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +25,17 @@ const ContactSection = ({ className = '' }: ContactSectionProps) => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+
+      if (!isDesktop) {
+        gsap.set([glowRef.current, textRef.current, formRef.current], {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+        });
+        return;
+      }
+
       // Glow
       gsap.fromTo(glowRef.current,
         { opacity: 0 },
@@ -95,7 +106,7 @@ const ContactSection = ({ className = '' }: ContactSectionProps) => {
     <section 
       ref={sectionRef}
       id="contact"
-      className={`relative bg-ok-dark py-16 sm:py-20 lg:py-32 ${className}`}
+      className={`relative scroll-mt-20 lg:scroll-mt-24 bg-ok-dark py-16 sm:py-20 lg:py-32 ${className}`}
     >
       {/* Orange glow */}
       <div 
@@ -117,9 +128,10 @@ const ContactSection = ({ className = '' }: ContactSectionProps) => {
             {/* Social Links */}
             <div className="flex items-center justify-center lg:justify-start gap-3 sm:gap-4">
               <a 
-                href="https://tiktok.com" 
+                  href="https://www.tiktok.com/@okigogomcn88" 
                 target="_blank" 
                 rel="noopener noreferrer"
+                  aria-label="TikTok Okigogo"
                 className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-ok-panel border border-white/10 flex items-center justify-center hover:border-ok-orange/50 hover:text-ok-orange transition-colors"
               >
                 <svg className="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -127,9 +139,10 @@ const ContactSection = ({ className = '' }: ContactSectionProps) => {
                 </svg>
               </a>
               <a 
-                href="https://instagram.com" 
+                  href="https://www.instagram.com/okigogomcn/" 
                 target="_blank" 
                 rel="noopener noreferrer"
+                  aria-label="Instagram Okigogo MCN"
                 className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-ok-panel border border-white/10 flex items-center justify-center hover:border-ok-orange/50 hover:text-ok-orange transition-colors"
               >
                 <svg className="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -137,13 +150,14 @@ const ContactSection = ({ className = '' }: ContactSectionProps) => {
                 </svg>
               </a>
               <a 
-                href="https://linkedin.com" 
+                  href="https://www.facebook.com/share/18cQvabXJa/?mibextid=wwXIfr" 
                 target="_blank" 
                 rel="noopener noreferrer"
+                  aria-label="Facebook Okigogo"
                 className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-ok-panel border border-white/10 flex items-center justify-center hover:border-ok-orange/50 hover:text-ok-orange transition-colors"
               >
                 <svg className="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    <path d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.9.3-1.6 1.7-1.6h1.5V4.8c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.3H8v3h2.5v8h3z"/>
                 </svg>
               </a>
             </div>
@@ -235,22 +249,6 @@ const ContactSection = ({ className = '' }: ContactSectionProps) => {
                   </button>
                 </form>
               )}
-
-              {/* Alternative CTA */}
-              <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-white/10 text-center">
-                <p className="text-xs sm:text-sm text-ok-text-secondary mb-2 sm:mb-3">
-                  O agenda directamente:
-                </p>
-                <a
-                  href="https://calendly.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-ok-orange hover:text-ok-orange-dark transition-colors font-medium text-sm"
-                >
-                  <Calendar size={16} />
-                  Reservar en Calendly
-                </a>
-              </div>
             </div>
           </div>
         </div>

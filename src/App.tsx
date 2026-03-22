@@ -18,51 +18,135 @@ function App() {
   const mainRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Reduced snap intensity to prevent rollback on short scrolls
-    const timer = setTimeout(() => {
-      const pinned = ScrollTrigger.getAll()
-        .filter(st => st.vars.pin)
-        .sort((a, b) => a.start - b.start);
-      
+    let snapTrigger: ScrollTrigger | null = null;
+    let scrollDirection: 1 | -1 = 1;
+
+    // Walk up the offsetParent chain to get the true document-level top position.
+    const getDocumentTop = (el: HTMLElement): number => {
+      let top = 0;
+      let curr: HTMLElement | null = el;
+      while (curr) {
+        top += curr.offsetTop;
+        curr = curr.offsetParent as HTMLElement | null;
+      }
+      return top;
+    };
+
+    // Return the scroll position at which this section should be snapped to.
+    // GSAP wraps pinned sections in a "pin-spacer" div and sets the section itself
+    // to position:fixed while pinned, making offsetParent null and offsetTop
+    // viewport-relative. Reading the spacer's position instead gives the correct
+    // document top for both pinned and normal sections.
+    const getSectionScrollTop = (el: HTMLElement): number => {
+      const parent = el.parentElement;
+      if (parent && parent.classList.contains('pin-spacer')) {
+        return getDocumentTop(parent);
+      }
+      return getDocumentTop(el);
+    };
+
+    const buildSnapTrigger = () => {
+      if (!mainRef.current) return;
+
+      if (window.matchMedia('(max-width: 1023px)').matches) {
+        snapTrigger?.kill();
+        snapTrigger = null;
+        return;
+      }
+
       const maxScroll = ScrollTrigger.maxScroll(window);
-      
-      if (!maxScroll || pinned.length === 0) return;
+      if (!maxScroll) return;
 
-      const pinnedRanges = pinned.map(st => ({
-        start: st.start / maxScroll,
-        end: (st.end ?? st.start) / maxScroll,
-        center: (st.start + ((st.end ?? st.start) - st.start) * 0.5) / maxScroll,
-      }));
+      // For pinned sections, use ScrollTrigger's pre-computed pixel values.
+      // Sections whose start > 0 have scroll-driven entrance animations, so we
+      // snap to 45% of the way through the pin range — well inside the settled
+      // "content fully visible" zone (entrance ends ~42%, exit starts ~58%).
+      // The first section (start === 0) is already settled at scroll 0, so we
+      // keep it at 0.
+      const pinnedStartByEl = new Map<Element, number>();
+      ScrollTrigger.getAll()
+        .filter(st => st.vars.pin && st.trigger)
+        .forEach(st => {
+          const snapPx = st.start === 0
+            ? 0
+            : st.start + (st.end - st.start) * 0.45;
+          pinnedStartByEl.set(st.trigger as Element, snapPx);
+        });
 
-      ScrollTrigger.create({
+      // After GSAP pins a section it wraps it in a `div.pin-spacer`, so the
+      // section is no longer a direct child of <main>. Use :scope to match
+      // both the normal case (`main > section`) and the pinned case
+      // (`main > .pin-spacer > section`).
+      const mainEl = mainRef.current.querySelector('main');
+      if (!mainEl) return;
+      const contentBlocks = Array.from(
+        mainEl.querySelectorAll<HTMLElement>(
+          ':scope > section, :scope > .pin-spacer > section, :scope > footer'
+        )
+      );
+
+      if (contentBlocks.length === 0) return;
+
+      const points = Array.from(new Set([
+        0,
+        ...contentBlocks
+          .map(block => {
+            if (pinnedStartByEl.has(block)) {
+              return pinnedStartByEl.get(block)! / maxScroll;
+            }
+            return getSectionScrollTop(block) / maxScroll;
+          })
+          .filter(value => Number.isFinite(value))
+          .map(value => Math.max(0, Math.min(1, value))),
+        1,
+      ])).sort((a, b) => a - b);
+
+      if (points.length < 2) return;
+
+      snapTrigger?.kill();
+      snapTrigger = ScrollTrigger.create({
+        onUpdate: (self) => {
+          scrollDirection = self.direction >= 0 ? 1 : -1;
+        },
         snap: {
+          directional: true,
+          // Snap to actual content block positions and honor scroll direction.
           snapTo: (value: number) => {
-            // Only snap if we're clearly within a pinned section
-            const inPinned = pinnedRanges.some(r => value >= r.start - 0.05 && value <= r.end + 0.05);
-            if (!inPinned) return value;
-            
-            // Find nearest center but with less aggressive snapping
-            const target = pinnedRanges.reduce((closest, r) =>
-              Math.abs(r.center - value) < Math.abs(closest - value) ? r.center : closest,
-              pinnedRanges[0]?.center ?? 0
-            );
-            
-            // Only snap if we're reasonably close to the center (prevent rollback on short scrolls)
-            const distance = Math.abs(target - value);
-            if (distance > 0.15) return value; // Don't snap if too far from center
-            
-            return target;
+            const epsilon = 0.001;
+
+            if (scrollDirection > 0) {
+              const nextPoint = points.find(point => point > value + epsilon);
+              if (typeof nextPoint === 'number') return nextPoint;
+              return points[points.length - 1];
+            }
+
+            const reversePoints = [...points].reverse();
+            const prevPoint = reversePoints.find(point => point < value - epsilon);
+            if (typeof prevPoint === 'number') return prevPoint;
+            return points[0];
           },
-          duration: { min: 0.1, max: 0.25 },
-          delay: 0,
-          ease: "power1.out"
+          duration: { min: 0.12, max: 0.3 },
+          delay: 0.04,
+          ease: 'power1.out',
         }
       });
+    };
+
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+      buildSnapTrigger();
     }, 500);
+
+    const onRefresh = () => {
+      buildSnapTrigger();
+    };
+
+    ScrollTrigger.addEventListener('refresh', onRefresh);
 
     return () => {
       clearTimeout(timer);
-      ScrollTrigger.getAll().forEach(st => st.kill());
+      ScrollTrigger.removeEventListener('refresh', onRefresh);
+      snapTrigger?.kill();
     };
   }, []);
 
