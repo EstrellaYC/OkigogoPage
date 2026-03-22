@@ -48,7 +48,7 @@ function App() {
     const buildSnapTrigger = () => {
       if (!mainRef.current) return;
 
-      if (window.matchMedia('(max-width: 1023px)').matches) {
+      if (window.matchMedia('(max-width: 767px)').matches) {
         snapTrigger?.kill();
         snapTrigger = null;
         return;

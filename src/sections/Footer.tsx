@@ -132,8 +132,8 @@ const Footer = () => {
             <h4 className="font-display font-bold text-ok-text text-sm">Conecta</h4>
             <div className="flex items-center gap-2 text-sm text-ok-text-secondary">
               <Mail size={12} className="text-ok-orange" />
-              <a href="mailto:hola@okigogo.com" className="hover:text-ok-text transition-colors">
-                hola@okigogo.com
+              <a href="mailto:hr@okigogomcn.com" className="hover:text-ok-text transition-colors">
+                hr@okigogomcn.com
               </a>
             </div>
             <div className="flex items-center gap-2 text-sm text-ok-text-secondary">
@@ -221,8 +221,8 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-sm text-ok-text-secondary">
                 <Mail size={16} className="text-ok-orange flex-shrink-0" />
-                <a href="mailto:hola@okigogo.com" className="hover:text-ok-text transition-colors">
-                  hola@okigogo.com
+                <a href="mailto:hr@okigogomcn.com" className="hover:text-ok-text transition-colors">
+                  hr@okigogomcn.com
                 </a>
               </div>
               <div className="flex items-center gap-3 text-sm text-ok-text-secondary">

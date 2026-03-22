@@ -22,7 +22,7 @@ const WhySection = ({ className = '' }: WhySectionProps) => {
 		const ctx = gsap.context(() => {
 			const mm = gsap.matchMedia();
 
-			mm.add('(min-width: 1024px)', () => {
+			mm.add('(min-width: 768px)', () => {
 				const scrollTl = gsap.timeline({
 					scrollTrigger: {
 						trigger: sectionRef.current,
@@ -69,7 +69,7 @@ const WhySection = ({ className = '' }: WhySectionProps) => {
 				);
 			});
 
-			mm.add('(max-width: 1023px)', () => {
+			mm.add('(max-width: 767px)', () => {
 				gsap.set([mobileTextRef.current, mobileImageRef.current, mobileMetricsRef.current], {
 					opacity: 1,
 					y: 0,
@@ -99,9 +99,9 @@ const WhySection = ({ className = '' }: WhySectionProps) => {
 		<section
 			ref={sectionRef}
 			id="why-tiktok"
-			className={`section-pinned scroll-mt-20 lg:scroll-mt-24 bg-ok-dark ${className}`}
+			className={`section-pinned scroll-mt-20 md:scroll-mt-24 bg-ok-dark ${className}`}
 		>
-			<div className="px-4 pb-10 pt-20 lg:hidden">
+			<div className="px-4 pb-10 pt-20 md:hidden">
 				<div ref={mobileTextRef} className="mb-5">
 					<div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.08em] text-ok-text-secondary">
 						<span className="h-1.5 w-1.5 rounded-full bg-ok-orange" />
@@ -164,35 +164,36 @@ const WhySection = ({ className = '' }: WhySectionProps) => {
 				</div>
 			</div>
 
-			<div className="hidden lg:block">
-				<div className="absolute inset-0 flex items-center px-[8vw]">
-					<div ref={desktopTextRef} className="w-[38vw] pr-8">
-						<h2 className="mb-4 font-display text-4xl font-black leading-tight text-ok-text xl:text-5xl">
+			<div className="hidden md:block">
+				<div className="absolute inset-0 flex items-center px-6 lg:px-[8vw]">
+					<div ref={desktopTextRef} className="w-[42vw] pr-6 lg:w-[38vw] lg:pr-8">
+						<h2 className="mb-4 font-display text-3xl font-black leading-tight text-ok-text lg:text-4xl xl:text-5xl">
 							El momento es <span className="text-gradient">ahora</span>
 						</h2>
-						<p className="mb-6 text-base leading-relaxed text-ok-text-secondary">
+						<p className="mb-6 text-sm leading-relaxed text-ok-text-secondary lg:text-base">
 							TikTok Shop está creciendo en México. Las marcas que entran temprano construyen audiencia, posicionamiento y ventas recurrentes antes que la competencia.
 						</p>
 						<div className="mb-6 space-y-3">
 							{bullets.map((bullet, i) => (
 								<div key={i} className="flex items-center gap-3">
-									<div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-ok-orange/10">
-										<bullet.icon size={16} className="text-ok-orange" />
+									<div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-ok-orange/10 lg:h-8 lg:w-8">
+										<bullet.icon size={14} className="text-ok-orange lg:hidden" />
+										<bullet.icon size={16} className="hidden text-ok-orange lg:block" />
 									</div>
-									<span className="font-medium text-ok-text">{bullet.text}</span>
+									<span className="text-sm font-medium text-ok-text lg:text-base">{bullet.text}</span>
 								</div>
 							))}
 						</div>
 						<button
 							onClick={() => scrollToSection('showcase')}
-							className="group inline-flex items-center gap-2 font-medium text-ok-orange transition-colors hover:text-ok-orange-dark"
+							className="group inline-flex items-center gap-2 text-sm font-medium text-ok-orange transition-colors hover:text-ok-orange-dark lg:text-base"
 						>
 							Ver casos de éxito
 							<ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
 						</button>
 					</div>
 
-					<div ref={desktopImageRef} className="mx-4 h-[55vh] w-[26vw] overflow-hidden rounded-2xl border border-white/[0.08] bg-ok-panel shadow-panel">
+					<div ref={desktopImageRef} className="mx-3 h-[46vh] w-[24vw] overflow-hidden rounded-2xl border border-white/[0.08] bg-ok-panel shadow-panel lg:mx-4 lg:h-[55vh] lg:w-[26vw]">
 						<img
 							src="/images/split-creator.jpg"
 							alt="Creator in Mexico"
@@ -200,34 +201,37 @@ const WhySection = ({ className = '' }: WhySectionProps) => {
 						/>
 					</div>
 
-					<div ref={desktopMetricsRef} className="w-[22vw]">
-						<div className="panel p-6">
-							<p className="mb-6 text-sm text-ok-text-secondary">Datos que convierten</p>
+					<div ref={desktopMetricsRef} className="w-[26vw] lg:w-[22vw]">
+						<div className="panel p-4 lg:p-6">
+							<p className="mb-5 text-xs text-ok-text-secondary lg:mb-6 lg:text-sm">Datos que convierten</p>
 							<div className="space-y-5">
 								<div>
 									<div className="mb-1 flex items-center gap-2">
-										<TrendingIcon size={18} className="text-ok-cyan" />
-										<span className="text-sm text-ok-text-secondary">GMV generado</span>
+										<TrendingIcon size={16} className="text-ok-cyan lg:hidden" />
+										<TrendingIcon size={18} className="hidden text-ok-cyan lg:block" />
+										<span className="text-xs text-ok-text-secondary lg:text-sm">GMV generado</span>
 									</div>
-									<div className="font-mono text-3xl font-bold text-ok-text">+120%</div>
+									<div className="font-mono text-2xl font-bold text-ok-text lg:text-3xl">+120%</div>
 									<div className="text-xs text-ok-text-secondary">Promedio trimestral</div>
 								</div>
 								<div className="h-px bg-white/10" />
 								<div>
 									<div className="mb-1 flex items-center gap-2">
-										<Target size={18} className="text-ok-orange" />
-										<span className="text-sm text-ok-text-secondary">Conversión</span>
+										<Target size={16} className="text-ok-orange lg:hidden" />
+										<Target size={18} className="hidden text-ok-orange lg:block" />
+										<span className="text-xs text-ok-text-secondary lg:text-sm">Conversión</span>
 									</div>
-									<div className="font-mono text-3xl font-bold text-ok-text">4.8%</div>
+									<div className="font-mono text-2xl font-bold text-ok-text lg:text-3xl">4.8%</div>
 									<div className="text-xs text-ok-text-secondary">En campañas con livestream</div>
 								</div>
 								<div className="h-px bg-white/10" />
 								<div>
 									<div className="mb-1 flex items-center gap-2">
-										<Users size={18} className="text-ok-cyan" />
-										<span className="text-sm text-ok-text-secondary">Marcas activas</span>
+										<Users size={16} className="text-ok-cyan lg:hidden" />
+										<Users size={18} className="hidden text-ok-cyan lg:block" />
+										<span className="text-xs text-ok-text-secondary lg:text-sm">Marcas activas</span>
 									</div>
-									<div className="font-mono text-3xl font-bold text-ok-text">50+</div>
+									<div className="font-mono text-2xl font-bold text-ok-text lg:text-3xl">50+</div>
 									<div className="text-xs text-ok-text-secondary">En México</div>
 								</div>
 							</div>

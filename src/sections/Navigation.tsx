@@ -51,11 +51,13 @@ const Navigation = () => {
             {/* Logo */}
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center gap-1 group"
+              className="group"
             >
-              <span className="font-display font-bold text-lg sm:text-xl lg:text-2xl text-ok-text tracking-tight">
-                Okigog<span className="text-ok-orange">o</span>
-              </span>
+              <img
+                src="/images/oki_icon.png"
+                alt="Okigogo MCN"
+                className="h-6 w-auto sm:h-7 lg:h-8"
+              />
             </button>
 
             {/* Desktop Navigation */}
@@ -97,9 +99,11 @@ const Navigation = () => {
       >
         <div className="flex min-h-screen flex-col px-4 pb-8 pt-4">
           <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-            <span className="font-display font-bold text-2xl text-ok-text">
-              Okigog<span className="text-ok-orange">o</span>
-            </span>
+            <img
+              src="/images/oki_icon.png"
+              alt="Okigogo MCN"
+              className="h-8 w-auto"
+            />
             <button
               onClick={() => setIsMobileMenuOpen(false)}
               className="rounded-full p-2 text-ok-text hover:text-ok-orange transition-colors"
@@ -134,7 +138,7 @@ const Navigation = () => {
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-ok-text-secondary">
-            <p>hola@okigogo.com</p>
+            <p>hr@okigogomcn.com</p>
             <p className="mt-1">CDMX, México</p>
           </div>
         </div>
