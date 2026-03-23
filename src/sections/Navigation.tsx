@@ -138,7 +138,7 @@ const Navigation = () => {
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-ok-text-secondary">
-            <p>hr@okigogomcn.com</p>
+            <p>rh@okigogomcn.com</p>
             <p className="mt-1">CDMX, México</p>
           </div>
         </div>

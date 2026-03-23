@@ -67,10 +67,12 @@ const Footer = () => {
         <div className="lg:hidden">
           {/* Brand */}
           <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-1 mb-3">
-              <span className="font-display font-bold text-xl text-ok-text tracking-tight">
-                Okigog<span className="text-ok-orange">o</span>
-              </span>
+            <div className="mb-3 flex items-center justify-center">
+              <img
+                src="/images/oki_icon.png"
+                alt="Okigogo MCN"
+                className="h-10 w-auto"
+              />
             </div>
             <p className="text-xs text-ok-text-secondary leading-relaxed max-w-xs mx-auto">
               Tu socio estratégico para crecer en TikTok Shop México.
@@ -132,8 +134,8 @@ const Footer = () => {
             <h4 className="font-display font-bold text-ok-text text-sm">Conecta</h4>
             <div className="flex items-center gap-2 text-sm text-ok-text-secondary">
               <Mail size={12} className="text-ok-orange" />
-              <a href="mailto:hr@okigogomcn.com" className="hover:text-ok-text transition-colors">
-                hr@okigogomcn.com
+              <a href="mailto:rh@okigogomcn.com" className="hover:text-ok-text transition-colors">
+                rh@okigogomcn.com
               </a>
             </div>
             <div className="flex items-center gap-2 text-sm text-ok-text-secondary">
@@ -155,10 +157,12 @@ const Footer = () => {
         <div className="hidden lg:grid lg:grid-cols-5 gap-10">
           {/* Brand Column */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-1 mb-4">
-              <span className="font-display font-bold text-2xl text-ok-text tracking-tight">
-                Okigog<span className="text-ok-orange">o</span>
-              </span>
+            <div className="mb-4 flex items-center">
+              <img
+                src="/images/oki_icon.png"
+                alt="Okigogo MCN"
+                className="h-12 w-auto"
+              />
             </div>
             <p className="text-sm text-ok-text-secondary leading-relaxed mb-6 max-w-sm">
               Tu socio estratégico para crecer en TikTok Shop México. Equipo local, estrategia comprobada, resultados medibles.
@@ -221,8 +225,8 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-sm text-ok-text-secondary">
                 <Mail size={16} className="text-ok-orange flex-shrink-0" />
-                <a href="mailto:hr@okigogomcn.com" className="hover:text-ok-text transition-colors">
-                  hr@okigogomcn.com
+                <a href="mailto:rh@okigogomcn.com" className="hover:text-ok-text transition-colors">
+                  rh@okigogomcn.com
                 </a>
               </div>
               <div className="flex items-center gap-3 text-sm text-ok-text-secondary">

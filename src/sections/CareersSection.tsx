@@ -6,6 +6,7 @@ import {
   Star, 
   TrendingUp, 
   Globe, 
+  Briefcase,
   Video, 
   Mic, 
   Edit3, 
@@ -263,7 +264,7 @@ const CareersSection = ({ className = '' }: CareersSectionProps) => {
           {/* Right: Vacantes - One per row */}
           <div>
             <h3 className="font-display font-bold text-sm sm:text-base text-ok-text mb-3 sm:mb-4 flex items-center gap-2">
-              <Video size={16} className="text-ok-orange" />
+              <Briefcase size={16} className="text-ok-orange" />
               Vacantes disponibles
             </h3>
             

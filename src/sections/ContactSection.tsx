@@ -22,6 +22,8 @@ const ContactSection = ({ className = '' }: ContactSectionProps) => {
     mensaje: '',
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -89,10 +91,45 @@ const ContactSection = ({ className = '' }: ContactSectionProps) => {
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
+    setSubmitError('');
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/rh@okigogomcn.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          _subject: `Nuevo mensaje de contacto - ${formData.nombre || 'Sitio Web'}`,
+          nombre: formData.nombre,
+          correo: formData.correo,
+          marca: formData.marca,
+          mensaje: formData.mensaje,
+          _captcha: 'false',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('No se pudo enviar el mensaje.');
+      }
+
+      setIsSubmitted(true);
+      setFormData({
+        nombre: '',
+        correo: '',
+        marca: '',
+        mensaje: '',
+      });
+      setTimeout(() => setIsSubmitted(false), 3000);
+    } catch {
+      setSubmitError('No pudimos enviar tu mensaje. Intenta de nuevo en unos minutos.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -242,11 +279,16 @@ const ContactSection = ({ className = '' }: ContactSectionProps) => {
 
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className="w-full btn-primary flex items-center justify-center gap-2 py-3 sm:py-4 text-sm"
                   >
                     <Send size={16} />
-                    Enviar mensaje
+                    {isSubmitting ? 'Enviando...' : 'Enviar mensaje'}
                   </button>
+
+                  {submitError && (
+                    <p className="text-xs sm:text-sm text-red-400">{submitError}</p>
+                  )}
                 </form>
               )}
             </div>
