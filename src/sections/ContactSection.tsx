@@ -97,7 +97,7 @@ const ContactSection = ({ className = '' }: ContactSectionProps) => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('https://formsubmit.co/ajax/9ad9ca0b7f882359f47d75cbf7fab185', {
+      const response = await fetch('https://formsubmit.co/contacto@okigogo.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
