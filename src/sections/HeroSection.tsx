@@ -1,7 +1,7 @@
 import { useEffect, useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Search, Play, TrendingUp, Radio, Heart, Users, ArrowRight } from 'lucide-react';
+import { TrendingUp, Heart, Users, ArrowRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,9 +14,9 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const subheadRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const panelsRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const mobilePreviewRef = useRef<HTMLDivElement>(null);
+  const heroImageRef = useRef<HTMLDivElement>(null);
 
   // Load animation (auto-play on mount)
   useEffect(() => {
@@ -59,13 +59,11 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
         );
       }
 
-      // Panels stagger
-      const panels = panelsRef.current?.querySelectorAll('.floating-panel');
-      if (panels) {
-        tl.fromTo(panels,
-          { y: -40, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 },
-          0.3
+      if (heroImageRef.current) {
+        tl.fromTo(heroImageRef.current,
+          { x: 40, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.7 },
+          0.35
         );
       }
     }, sectionRef);
@@ -87,13 +85,9 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
             pin: true,
             scrub: 0.6,
             onLeaveBack: () => {
-              gsap.set([headlineRef.current, subheadRef.current, ctaRef.current], {
+              gsap.set([headlineRef.current, subheadRef.current, ctaRef.current, heroImageRef.current], {
                 opacity: 1, y: 0, x: 0
               });
-              const panels = panelsRef.current?.querySelectorAll('.floating-panel');
-              if (panels) {
-                gsap.set(panels, { opacity: 1, x: 0, y: 0 });
-              }
             }
           }
         });
@@ -116,23 +110,11 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
           0.74
         );
 
-        const panels = panelsRef.current?.querySelectorAll('.floating-panel');
-        if (panels) {
-          const directions = [
-            { x: '-10vw', y: '-10vh' },
-            { x: '10vw', y: '-10vh' },
-            { x: '-10vw', y: '10vh' },
-            { x: '10vw', y: '10vh' }
-          ];
-
-          panels.forEach((panel, i) => {
-            scrollTl.fromTo(panel,
-              { x: 0, y: 0, opacity: 1 },
-              { x: directions[i]?.x || 0, y: directions[i]?.y || 0, opacity: 0, ease: 'power2.in' },
-              0.7 + i * 0.02
-            );
-          });
-        }
+        scrollTl.fromTo(heroImageRef.current,
+          { x: 0, opacity: 1 },
+          { x: '10vw', opacity: 0, ease: 'power2.in' },
+          0.7
+        );
       });
 
       return () => mm.revert();
@@ -160,112 +142,30 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
         className="absolute inset-0 glow-orange opacity-0"
       />
 
-      {/* Floating UI Panels - Desktop Only */}
-      <div ref={panelsRef} className="absolute inset-0 pointer-events-none hidden lg:block">
-        {/* Top-left panel - Search */}
-        <div className="floating-panel absolute left-[6vw] top-[14vh] w-[26vw] min-w-[280px] panel p-4 pointer-events-auto animate-float">
-          <div className="mono-label mb-3">Búsqueda</div>
-          <div className="flex items-center gap-2 bg-ok-dark/50 rounded-lg px-3 py-2 mb-3">
-            <Search size={14} className="text-ok-text-secondary" />
-            <span className="text-sm text-ok-text-secondary">TikTok Shop México</span>
-          </div>
-          <div className="space-y-2">
-            {['Influencers', 'Livestreams', 'Productos'].map((item, i) => (
-              <div key={i} className="flex items-center gap-2 text-sm text-ok-text/70">
-                <div className="w-1 h-1 rounded-full bg-ok-orange" />
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Top-right panel - Video */}
-        <div 
-          className="floating-panel absolute right-[6vw] top-[14vh] w-[22vw] min-w-[260px] panel overflow-hidden pointer-events-auto animate-float"
-          style={{ animationDelay: '0.5s' }}
-        >
-          <div className="mono-label absolute top-3 left-3 z-10">Contenido</div>
-          <img 
-            src="/images/hero-panel-video.jpg" 
-            alt="TikTok content" 
-            className="w-full h-40 object-cover"
-          />
-          <div className="p-3 flex items-center gap-2">
-            <Play size={14} className="text-ok-orange" />
-            <span className="text-sm text-ok-text">125K views</span>
-          </div>
-        </div>
 
-        {/* Bottom-left panel - Metrics */}
-        <div 
-          className="floating-panel absolute left-[6vw] bottom-[12vh] w-[24vw] min-w-[260px] panel p-4 pointer-events-auto animate-float"
-          style={{ animationDelay: '1s' }}
-        >
-          <div className="mono-label mb-3">Métricas</div>
-          <div className="flex items-end gap-2 mb-2">
-            <TrendingUp size={20} className="text-ok-cyan" />
-            <span className="text-2xl font-display font-bold text-ok-text">+120%</span>
-          </div>
-          <div className="text-xs text-ok-text-secondary">GMV growth this quarter</div>
-          <div className="mt-3 h-8 flex items-end gap-1">
-            {[40, 65, 45, 80, 55, 90, 70].map((h, i) => (
-              <div 
-                key={i} 
-                className="flex-1 bg-ok-orange/60 rounded-t"
-                style={{ height: `${h}%` }}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Bottom-right panel - Livestream */}
-        <div 
-          className="floating-panel absolute right-[6vw] bottom-[12vh] w-[24vw] min-w-[260px] panel p-4 pointer-events-auto animate-float"
-          style={{ animationDelay: '1.5s' }}
-        >
-          <div className="mono-label mb-3">Livestream</div>
-          <div className="flex items-center gap-3 mb-3">
-            <div className="relative">
-              <div className="w-10 h-10 rounded-full bg-ok-orange/20 flex items-center justify-center">
-                <Radio size={18} className="text-ok-orange" />
-              </div>
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-live-pulse" />
-            </div>
-            <div>
-              <div className="text-sm font-medium text-ok-text">En vivo</div>
-              <div className="text-xs text-ok-text-secondary flex items-center gap-1">
-                <Users size={10} />
-                2.4k viewers
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-ok-text-secondary">
-            <Heart size={14} className="text-ok-orange" />
-            <span>12.4k likes</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Center Content */}
-      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-0">
-        <div className="mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-center pt-24 pb-10 lg:min-h-screen lg:items-center">
-          <div className="max-w-4xl text-left lg:text-center">
+      {/* Main Content */}
+      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-12 xl:px-20">
+        <div className="mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-center pt-24 pb-10 lg:min-h-screen lg:flex-row lg:items-center lg:gap-12 xl:gap-20">
+          {/* Left: Text */}
+          <div className="flex-1 max-w-2xl">
         <h1 
           ref={headlineRef}
-          className="font-display font-black text-[2.4rem] sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl text-ok-text leading-[0.98] tracking-tight mb-4 sm:mb-6 opacity-0"
+          className="font-display font-black text-[2.8rem] sm:text-6xl md:text-6xl lg:text-7xl xl:text-8xl text-ok-text leading-[0.95] tracking-tight mb-6 sm:mb-8 opacity-0"
         >
-          DE AQUÍ AL{' '}
-          <span className="text-gradient">MUNDO</span>
+          <span className="block">Go <span className="text-gradient">Bigger</span></span>
+          <span className="block">Go <span className="text-gradient">Further</span></span>
+          <span className="block">Go <span className="text-gradient">Together</span></span>
         </h1>
         
         <p 
           ref={subheadRef}
-          className="text-base sm:text-base lg:text-lg xl:text-xl text-ok-text-secondary max-w-xl lg:mx-auto mb-6 sm:mb-8 leading-relaxed opacity-0"
+          className="text-base sm:text-lg lg:text-xl text-ok-text-secondary max-w-lg mb-6 sm:mb-8 leading-relaxed opacity-0"
         >
           Soluciones completas de e-commerce con equipo local y estrategia comprobada.
         </p>
         
-        <div ref={ctaRef} className="flex flex-col sm:flex-row items-stretch lg:items-center justify-start lg:justify-center gap-3 sm:gap-4 opacity-0">
+        <div ref={ctaRef} className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4 opacity-0">
           <button 
             onClick={() => scrollToSection('contact')}
             className="btn-primary flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto px-6 py-3"
@@ -330,7 +230,23 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
                 </div>
               </div>
             </div>
+          </div>{/* end left column */}
+
+          {/* Right: Hero Image with lava lamp border - Desktop Only */}
+          <div ref={heroImageRef} className="hidden lg:flex flex-1 max-w-xl items-center justify-center opacity-0">
+            <div className="lava-lamp-frame">
+              <div className="lava-lamp-glow" />
+              <div className="lava-lamp-border" />
+              <div className="lava-lamp-clip">
+                <img
+                  src="/images/hero-panel-video.jpg"
+                  alt="Okigogo — e-commerce de alto impacto"
+                  className="lava-lamp-image"
+                />
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
     </section>

@@ -162,3 +162,113 @@ html {
     padding-bottom: env(safe-area-inset-bottom);
   }
 }
+
+/* Lava lamp blob frame — organic shape */
+.lava-lamp-frame {
+  position: relative;
+  width: clamp(280px, 38vw, 480px);
+  aspect-ratio: 4 / 5;
+  flex-shrink: 0;
+}
+
+/* Glowing halo layer behind the blob */
+.lava-lamp-glow {
+  position: absolute;
+  inset: -20px;
+  background: conic-gradient(
+    from 0deg,
+    #FF6B35,
+    #2DE2E6,
+    #ff2d8d,
+    #FF6B35
+  );
+  filter: blur(28px);
+  opacity: 0.55;
+  animation: blob-shape 9s ease-in-out infinite, lava-spin 12s linear infinite;
+  z-index: 0;
+}
+
+/* Inner clip container that gives the image the organic shape */
+.lava-lamp-clip {
+  position: absolute;
+  inset: 6px;
+  overflow: hidden;
+  animation: blob-shape 9s ease-in-out infinite;
+  z-index: 2;
+}
+
+/* Border ring that follows the blob shape */
+.lava-lamp-border {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 0deg,
+    #FF6B35,
+    #2DE2E6,
+    #ff2d8d,
+    #FF6B35
+  );
+  animation: blob-shape 9s ease-in-out infinite, lava-spin 8s linear infinite;
+  z-index: 1;
+}
+
+.lava-lamp-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: blob-shape 9s ease-in-out infinite;
+}
+
+@keyframes blob-shape {
+  0%   { border-radius: 62% 38% 46% 54% / 60% 44% 56% 40%; }
+  14%  { border-radius: 42% 58% 55% 45% / 48% 62% 38% 52%; }
+  28%  { border-radius: 54% 46% 38% 62% / 56% 38% 62% 44%; }
+  42%  { border-radius: 38% 62% 62% 38% / 42% 58% 42% 58%; }
+  57%  { border-radius: 58% 42% 44% 56% / 64% 36% 64% 36%; }
+  71%  { border-radius: 46% 54% 58% 42% / 38% 64% 36% 62%; }
+  85%  { border-radius: 56% 44% 42% 58% / 52% 46% 54% 48%; }
+  100% { border-radius: 62% 38% 46% 54% / 60% 44% 56% 40%; }
+}
+
+@keyframes lava-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Marquee photo strips */
+.marquee-track-left,
+.marquee-track-right {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+}
+
+.marquee-track-left {
+  animation: marquee-left 32s linear infinite;
+}
+
+.marquee-track-right {
+  animation: marquee-right 38s linear infinite;
+}
+
+.marquee-track-left:hover,
+.marquee-track-right:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track-left,
+  .marquee-track-right {
+    animation: none;
+  }
+}
