@@ -163,6 +163,46 @@ html {
   }
 }
 
+/* Mobile hero image — landscape with flowing light border */
+.mobile-hero-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.mobile-hero-border {
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #FF6B35 60deg,
+    #2DE2E6 120deg,
+    #ff2d8d 180deg,
+    #FF6B35 240deg,
+    transparent 300deg,
+    transparent 360deg
+  );
+  animation: light-sweep 3s linear infinite;
+  z-index: 0;
+}
+
+.mobile-hero-clip {
+  position: absolute;
+  inset: 2px;
+  border-radius: calc(1rem - 2px);
+  overflow: hidden;
+  z-index: 1;
+}
+
+@keyframes light-sweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 /* Lava lamp blob frame — organic shape */
 .lava-lamp-frame {
   position: relative;

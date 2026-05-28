@@ -1,7 +1,7 @@
 import { useEffect, useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { TrendingUp, Heart, Users, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -147,6 +147,20 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
       {/* Main Content */}
       <div className="relative z-10 w-full px-4 sm:px-6 lg:px-12 xl:px-20">
         <div className="mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-center pt-24 pb-10 lg:min-h-screen lg:flex-row lg:items-center lg:gap-12 xl:gap-20">
+          {/* Mobile: Image preview — top on mobile, hidden on desktop */}
+          <div ref={mobilePreviewRef} className="mb-6 opacity-0 lg:hidden">
+            <div className="mobile-hero-frame">
+              <div className="mobile-hero-border" />
+              <div className="mobile-hero-clip">
+                <img
+                  src="/images/hero-panel-video.jpg"
+                  alt="Contenido y livestream para TikTok Shop"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+
           {/* Left: Text */}
           <div className="flex-1 max-w-2xl">
         <h1 
@@ -180,56 +194,6 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
             Ver casos
           </button>
         </div>
-
-            <div ref={mobilePreviewRef} className="mt-8 space-y-3 opacity-0 lg:hidden">
-              <div className="panel overflow-hidden">
-                <div className="relative aspect-[4/5]">
-                  <img
-                    src="/images/hero-panel-video.jpg"
-                    alt="Contenido y livestream para TikTok Shop"
-                    className="h-full w-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ok-dark via-ok-dark/35 to-transparent" />
-                  <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-ok-dark/75 px-3 py-1.5">
-                    <div className="h-2 w-2 rounded-full bg-red-500 animate-live-pulse" />
-                    <span className="mono-label text-[10px]">LIVE COMMERCE</span>
-                  </div>
-                  <div className="absolute inset-x-0 bottom-0 p-4">
-                    <div className="text-sm font-medium text-ok-text">Equipo local, ejecución real</div>
-                    <div className="mt-1 text-xs leading-relaxed text-ok-text-secondary">
-                      Estrategia, contenido, livestream y operación en una sola alianza.
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div className="panel p-3">
-                  <div className="mb-2 flex items-center gap-2 text-ok-orange">
-                    <TrendingUp size={14} />
-                    <span className="mono-label">GMV</span>
-                  </div>
-                  <div className="font-display text-xl font-bold text-ok-text">+120%</div>
-                  <div className="text-xs text-ok-text-secondary">crecimiento trimestral</div>
-                </div>
-                <div className="panel p-3">
-                  <div className="mb-2 flex items-center gap-2 text-ok-cyan">
-                    <Users size={14} />
-                    <span className="mono-label">LIVE</span>
-                  </div>
-                  <div className="font-display text-xl font-bold text-ok-text">2.4k</div>
-                  <div className="text-xs text-ok-text-secondary">viewers por sesión</div>
-                </div>
-                <div className="panel col-span-2 p-3">
-                  <div className="mb-2 flex items-center gap-2 text-ok-orange">
-                    <Heart size={14} />
-                    <span className="mono-label">SOCIAL PROOF</span>
-                  </div>
-                  <div className="font-display text-xl font-bold text-ok-text">12.4k likes</div>
-                  <div className="text-xs text-ok-text-secondary">contenido optimizado para descubrimiento y conversión</div>
-                </div>
-              </div>
-            </div>
           </div>{/* end left column */}
 
           {/* Right: Hero Image with lava lamp border - Desktop Only */}
