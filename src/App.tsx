@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './App.css';
@@ -8,9 +9,11 @@ import Navigation from './sections/Navigation';
 import HeroSection from './sections/HeroSection';
 import WhySection from './sections/WhySection';
 import ShowcaseSection from './sections/ShowcaseSection';
-import CareersSection from './sections/CareersSection';
-import ContactSection from './sections/ContactSection';
 import Footer from './sections/Footer';
+import CareerPage from './pages/CareerPage';
+import ContactPage from './pages/ContactPage';
+import CommercePage from './pages/CommercePage';
+import EntertainmentPage from './pages/EntertainmentPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -151,34 +154,38 @@ function App() {
   }, []);
 
   return (
-    <div ref={mainRef} className="relative bg-ok-dark min-h-screen">
-      {/* Grain overlay */}
-      <div className="grain-overlay" />
-      
-      {/* Navigation */}
-      <Navigation />
-      
-      {/* Main content */}
-      <main className="relative">
-        {/* Section 1: Hero - pin: true */}
-        <HeroSection className="z-10" />
-        
-        {/* Section 2: Why + Metrics (merged) - pin: true */}
-        <WhySection className="z-20" />
-        
-        {/* Section 3: Cases + Livestream + Services (merged) - pin: false (flowing) */}
-        <ShowcaseSection className="z-30" />
-        
-        {/* Section 4: Careers - pin: false */}
-        <CareersSection className="z-40" />
-        
-        {/* Section 5: Contact - pin: false */}
-        <ContactSection className="z-50" />
-        
-        {/* Footer */}
-        <Footer />
-      </main>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={
+          <div ref={mainRef} className="relative bg-ok-dark min-h-screen">
+            {/* Grain overlay */}
+            <div className="grain-overlay" />
+            
+            {/* Navigation */}
+            <Navigation />
+            
+            {/* Main content */}
+            <main className="relative">
+              {/* Section 1: Hero - pin: true */}
+              <HeroSection className="z-10" />
+              
+              {/* Section 2: Why + Metrics (merged) - pin: true */}
+              <WhySection className="z-20" />
+              
+              {/* Section 3: Cases + Livestream + Services (merged) - pin: false (flowing) */}
+              <ShowcaseSection className="z-30" />
+              
+              {/* Footer */}
+              <Footer />
+            </main>
+          </div>
+        } />
+        <Route path="/career" element={<CareerPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/commerce" element={<CommercePage />} />
+        <Route path="/entertainment" element={<EntertainmentPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

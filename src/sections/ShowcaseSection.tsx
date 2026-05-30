@@ -18,16 +18,6 @@ const row1 = [
   "/images/case-card-3.jpg",
 ];
 
-const row2 = [
-  "/images/studio-setup.jpg",
-  "/images/team-culture.jpg",
-  "/images/hook-growth.jpg",
-  "/images/team-office.jpg",
-  "/images/hook-money.jpg",
-  "/images/metrics-preview-host.jpg",
-  "/images/hero-panel-video.jpg",
-];
-
 const PhotoStrip = ({ images, direction }: { images: string[]; direction: "left" | "right" }) => {
   const doubled = [...images, ...images];
   return (
@@ -95,9 +85,8 @@ const ShowcaseSection = ({ className = "" }: ShowcaseSectionProps) => {
         </h2>
       </div>
 
-      <div id="cases" className="relative z-10 flex flex-col gap-4 sm:gap-5">
+      <div id="cases" className="relative z-10">
         <PhotoStrip images={row1} direction="left" />
-        <PhotoStrip images={row2} direction="right" />
       </div>
 
       <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-24 bg-gradient-to-r from-ok-dark to-transparent" />

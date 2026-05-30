@@ -1,4 +1,5 @@
 import { useEffect, useRef, useLayoutEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight } from 'lucide-react';
@@ -10,9 +11,9 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ className = '' }: HeroSectionProps) => {
+  const navigate = useNavigate();
   const sectionRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
-  const subheadRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const mobilePreviewRef = useRef<HTMLDivElement>(null);
@@ -35,13 +36,6 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
         { y: 40, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.7 },
         0.1
-      );
-
-      // Subheadline
-      tl.fromTo(subheadRef.current,
-        { y: 24, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6 },
-        0.25
       );
 
       // CTAs
@@ -85,7 +79,7 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
             pin: true,
             scrub: 0.6,
             onLeaveBack: () => {
-              gsap.set([headlineRef.current, subheadRef.current, ctaRef.current, heroImageRef.current], {
+              gsap.set([headlineRef.current, ctaRef.current, heroImageRef.current], {
                 opacity: 1, y: 0, x: 0
               });
             }
@@ -96,12 +90,6 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
           { y: 0, opacity: 1 },
           { y: '-18vh', opacity: 0, ease: 'power2.in' },
           0.7
-        );
-
-        scrollTl.fromTo(subheadRef.current,
-          { y: 0, opacity: 1 },
-          { y: '-10vh', opacity: 0, ease: 'power2.in' },
-          0.72
         );
 
         scrollTl.fromTo(ctaRef.current,
@@ -122,13 +110,6 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
 
     return () => ctx.revert();
   }, []);
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <section 
@@ -165,33 +146,32 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
           <div className="flex-1 max-w-2xl">
         <h1 
           ref={headlineRef}
-          className="font-display font-black text-[2.8rem] sm:text-6xl md:text-6xl lg:text-7xl xl:text-8xl text-ok-text leading-[0.95] tracking-tight mb-6 sm:mb-8 opacity-0"
+          className="font-display font-black text-ok-text tracking-tight mb-6 sm:mb-8 opacity-0"
         >
-          <span className="block">Go <span className="text-gradient">Bigger</span></span>
-          <span className="block">Go <span className="text-gradient">Further</span></span>
-          <span className="block">Go <span className="text-gradient">Together</span></span>
+          <div className="flex items-start gap-2 sm:gap-3 lg:gap-5">
+            {/* Single GO rotated 90° clockwise via writing-mode */}
+            <span
+              className="text-ok-text leading-none shrink-0 text-[5.5rem] sm:text-[7.5rem] lg:text-[9rem] xl:text-[11.5rem]"
+              style={{ writingMode: 'vertical-lr' }}
+            >
+              GO
+            </span>
+            {/* Bigger / Further / Together */}
+            <div className="leading-[0.95] text-[2.8rem] sm:text-6xl md:text-6xl lg:text-7xl xl:text-8xl">
+              <span className="block"><span className="text-gradient">Bigger</span></span>
+              <span className="block"><span className="text-gradient">Further</span></span>
+              <span className="block"><span className="text-gradient">Together</span></span>
+            </div>
+          </div>
         </h1>
         
-        <p 
-          ref={subheadRef}
-          className="text-base sm:text-lg lg:text-xl text-ok-text-secondary max-w-lg mb-6 sm:mb-8 leading-relaxed opacity-0"
-        >
-          Soluciones completas de e-commerce con equipo local y estrategia comprobada.
-        </p>
-        
-        <div ref={ctaRef} className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4 opacity-0">
+        <div ref={ctaRef} className="flex justify-center mt-10 sm:mt-12 opacity-0">
           <button 
-            onClick={() => scrollToSection('contact')}
-            className="btn-primary flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto px-6 py-3"
+            onClick={() => navigate('/contact')}
+            className="btn-primary flex items-center justify-center gap-2 text-sm sm:text-base px-6 py-3"
           >
-            Agenda una llamada
+            Contáctanos
             <ArrowRight size={18} />
-          </button>
-          <button 
-            onClick={() => scrollToSection('cases')}
-            className="btn-secondary flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto px-6 py-3"
-          >
-            Ver casos
           </button>
         </div>
           </div>{/* end left column */}

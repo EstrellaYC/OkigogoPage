@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,12 +32,21 @@ const Navigation = () => {
     }
   };
 
-  const navLinks = [
-    { label: 'Nosotros', id: 'why-tiktok' },
-    { label: 'Casos', id: 'cases' },
-    { label: 'Carreras', id: 'careers' },
-    { label: 'Contacto', id: 'contact' },
+  const navLinks: { label: string; id?: string; href?: string }[] = [
+    { label: 'E-Comercio', href: '/commerce' },
+    { label: 'Entretenimiento', href: '/entertainment' },
+    { label: 'Carreras', href: '/career' },
+    { label: 'Contacto', href: '/contact' },
   ];
+
+  const handleNavClick = (link: { id?: string; href?: string }) => {
+    if (link.href) {
+      setIsMobileMenuOpen(false);
+      navigate(link.href);
+    } else if (link.id) {
+      scrollToSection(link.id);
+    }
+  };
 
   return (
     <>
@@ -50,7 +61,7 @@ const Navigation = () => {
           <div className="flex items-center justify-between h-14 sm:h-16 lg:h-20">
             {/* Logo */}
             <button 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={() => navigate('/')}
               className="group"
             >
               <img
@@ -64,15 +75,15 @@ const Navigation = () => {
             <div className="hidden lg:flex items-center gap-8">
               {navLinks.map((link) => (
                 <button
-                  key={link.id}
-                  onClick={() => scrollToSection(link.id)}
+                  key={link.label}
+                  onClick={() => handleNavClick(link)}
                   className="text-ok-text-secondary hover:text-ok-text transition-colors text-sm font-medium"
                 >
                   {link.label}
                 </button>
               ))}
               <button 
-                onClick={() => scrollToSection('contact')}
+                onClick={() => navigate('/contact')}
                 className="btn-primary text-sm"
               >
                 Agenda una llamada
@@ -120,8 +131,8 @@ const Navigation = () => {
             <nav className="flex flex-col gap-3 w-full">
             {navLinks.map((link) => (
               <button
-                key={link.id}
-                onClick={() => scrollToSection(link.id)}
+                key={link.label}
+                onClick={() => handleNavClick(link)}
                 className="panel w-full px-5 py-4 text-left text-xl font-display font-semibold text-ok-text hover:border-ok-orange/40 hover:text-ok-orange transition-colors"
               >
                 {link.label}
@@ -130,7 +141,7 @@ const Navigation = () => {
             </nav>
 
             <button 
-              onClick={() => scrollToSection('contact')}
+              onClick={() => { navigate('/contact'); setIsMobileMenuOpen(false); }}
               className="btn-primary text-base mt-6 w-full"
             >
               Agenda una llamada
