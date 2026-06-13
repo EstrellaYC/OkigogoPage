@@ -148,7 +148,7 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
           ref={headlineRef}
           className="font-display font-black text-ok-text tracking-tight mb-6 sm:mb-8 opacity-0"
         >
-          <div className="flex items-start gap-2 sm:gap-3 lg:gap-5">
+          <div className="flex items-center gap-2 sm:gap-3 lg:gap-5">
             {/* Single GO rotated 90° clockwise via writing-mode */}
             <span
               className="text-ok-text leading-none shrink-0 text-[5.5rem] sm:text-[7.5rem] lg:text-[9rem] xl:text-[11.5rem]"
@@ -157,7 +157,7 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
               GO
             </span>
             {/* Bigger / Further / Together */}
-            <div className="leading-[0.95] text-[2.8rem] sm:text-6xl md:text-6xl lg:text-7xl xl:text-8xl">
+            <div className="leading-[0.95] text-[2.1rem] sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl">
               <span className="block"><span className="text-gradient">Bigger</span></span>
               <span className="block"><span className="text-gradient">Further</span></span>
               <span className="block"><span className="text-gradient">Together</span></span>
