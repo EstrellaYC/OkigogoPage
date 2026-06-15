@@ -149,12 +149,10 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
           className="font-display font-black text-ok-text tracking-tight mb-6 sm:mb-8 opacity-0"
         >
           <div className="flex items-center gap-2 sm:gap-3 lg:gap-5">
-            {/* Single GO rotated 90° clockwise via writing-mode */}
-            <span
-              className="text-ok-text leading-none shrink-0 text-[5.5rem] sm:text-[7.5rem] lg:text-[9rem] xl:text-[11.5rem]"
-              style={{ writingMode: 'vertical-lr' }}
-            >
-              GO
+            {/* GO stacked in two lines */}
+            <span className="text-ok-text leading-none shrink-0 text-[5.5rem] sm:text-[7.5rem] lg:text-[9rem] xl:text-[11.5rem]">
+              <span className="block">G</span>
+              <span className="block">O</span>
             </span>
             {/* Bigger / Further / Together */}
             <div className="leading-[0.95] text-[2.1rem] sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl">
