@@ -90,7 +90,7 @@ const CareersSection = ({ className = '' }: CareersSectionProps) => {
       icon: Star,
       title: 'Conviértete en influencer',
       description: 'Te entrenamos, te guiamos y te conectamos con las mejores oportunidades del mercado.',
-      image: '/images/monse.png',
+      image: '/images/split-creator.jpg',
     },
     {
       icon: TrendingUp,
