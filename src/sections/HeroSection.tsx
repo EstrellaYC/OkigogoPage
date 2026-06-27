@@ -1,4 +1,4 @@
-import { useEffect, useRef, useLayoutEffect, useState } from 'react';
+import { useEffect, useRef, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -10,36 +10,14 @@ interface HeroSectionProps {
   className?: string;
 }
 
-const HERO_SLIDES = [
-  '/images/hero-panel-video.jpg',
-  '/images/kenn.jpg',
-  '/images/mari.jpeg',
-  '/images/monse.jpeg',
-  '/images/oliver.jpeg',
-];
-
 const HeroSection = ({ className = '' }: HeroSectionProps) => {
   const navigate = useNavigate();
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const mobilePreviewRef = useRef<HTMLDivElement>(null);
   const heroImageRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isPaused) {
-      return;
-    }
-
-    const intervalId = window.setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 2000);
-
-    return () => window.clearInterval(intervalId);
-  }, [isPaused]);
 
   // Load animation (auto-play on mount)
   useEffect(() => {
@@ -154,24 +132,12 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
           <div ref={mobilePreviewRef} className="mb-6 opacity-0 lg:hidden">
             <div className="mobile-hero-frame">
               <div className="mobile-hero-border" />
-              <div
-                className="mobile-hero-clip"
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}
-              >
-                <div className="relative h-full w-full">
-                  {HERO_SLIDES.map((src, index) => (
-                    <img
-                      key={src}
-                      src={src}
-                      alt="Contenido y livestream para TikTok Shop"
-                      className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-                        index === activeSlide ? 'opacity-100' : 'opacity-0'
-                      }`}
-                      loading={index === 0 ? 'eager' : 'lazy'}
-                    />
-                  ))}
-                </div>
+              <div className="mobile-hero-clip">
+                <img
+                  src="/images/hero-panel-video.jpg"
+                  alt="Contenido y livestream para TikTok Shop"
+                  className="h-full w-full object-cover"
+                />
               </div>
             </div>
           </div>
@@ -213,24 +179,12 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
             <div className="lava-lamp-frame">
               <div className="lava-lamp-glow" />
               <div className="lava-lamp-border" />
-              <div
-                className="lava-lamp-clip"
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}
-              >
-                <div className="relative h-full w-full">
-                  {HERO_SLIDES.map((src, index) => (
-                    <img
-                      key={src}
-                      src={src}
-                      alt="Okigogo - e-commerce de alto impacto"
-                      className={`lava-lamp-image absolute inset-0 transition-opacity duration-700 ${
-                        index === activeSlide ? 'opacity-100' : 'opacity-0'
-                      }`}
-                      loading={index === 0 ? 'eager' : 'lazy'}
-                    />
-                  ))}
-                </div>
+              <div className="lava-lamp-clip">
+                <img
+                  src="/images/hero-panel-video.jpg"
+                  alt="Okigogo - e-commerce de alto impacto"
+                  className="lava-lamp-image"
+                />
               </div>
             </div>
           </div>
