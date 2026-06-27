@@ -1,10 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { TriangleAlert } from 'lucide-react';
+import { TriangleAlert, X } from 'lucide-react';
 import './App.css';
-import { Alert, AlertDescription, AlertTitle } from './components/ui/alert';
 
 // Import sections
 import Navigation from './sections/Navigation';
@@ -21,6 +20,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const mainRef = useRef<HTMLDivElement>(null);
+  const [isSafetyModalOpen, setIsSafetyModalOpen] = useState(true);
 
   useEffect(() => {
     let snapTrigger: ScrollTrigger | null = null;
@@ -162,28 +162,42 @@ function App() {
           <div ref={mainRef} className="relative bg-ok-dark min-h-screen">
             {/* Grain overlay */}
             <div className="grain-overlay" />
+
+            {isSafetyModalOpen && (
+              <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 px-4">
+                <div className="w-full max-w-2xl rounded-2xl border-2 border-orange-400 bg-red-950/95 p-5 text-red-50 shadow-[0_0_0_1px_rgba(251,146,60,0.45),0_18px_48px_rgba(239,68,68,0.45)] sm:p-6">
+                  <div className="mb-3 flex items-start justify-between gap-4">
+                    <div className="flex items-start gap-3">
+                      <TriangleAlert className="mt-0.5 size-5 text-orange-300" aria-hidden="true" />
+                      <div>
+                        <h2 className="text-base font-bold tracking-wide text-orange-200 sm:text-lg">
+                          ALERTA DE SEGURIDAD
+                        </h2>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsSafetyModalOpen(false)}
+                      className="rounded-full p-1.5 text-orange-200 transition hover:bg-orange-300/20 hover:text-orange-100"
+                      aria-label="Cerrar alerta"
+                    >
+                      <X className="size-5" aria-hidden="true" />
+                    </button>
+                  </div>
+                  <p className="text-sm leading-relaxed text-red-100 sm:text-base">
+                    Hemos detectado personas que se hacen pasar por nuestra empresa para ofrecer empleos falsos y pedir dinero.{" "}
+                    <span className="font-semibold uppercase tracking-wide text-orange-100">Nunca solicitamos pagos, depositos ni inversiones para contratar.</span>{" "}
+                    Si recibes un mensaje sospechoso, no pagues y reportalo.
+                  </p>
+                </div>
+              </div>
+            )}
             
             {/* Navigation */}
             <Navigation />
             
             {/* Main content */}
             <main className="relative">
-              <div className="relative z-40 px-4 pt-20 sm:px-6 lg:px-12 lg:pt-24">
-                <div className="mx-auto max-w-6xl">
-                  <Alert className="border-2 border-orange-400 bg-red-950/90 text-red-50 shadow-[0_0_0_1px_rgba(251,146,60,0.45),0_18px_48px_rgba(239,68,68,0.35)]">
-                    <TriangleAlert className="mt-0.5 size-5 text-orange-300" aria-hidden="true" />
-                    <AlertTitle className="text-base font-bold tracking-wide text-orange-200 sm:text-lg">
-                      ALERTA DE SEGURIDAD
-                    </AlertTitle>
-                    <AlertDescription className="text-sm leading-relaxed text-red-100 sm:text-base">
-                      Hemos detectado personas que se hacen pasar por nuestra empresa para ofrecer empleos falsos y pedir dinero.{' '}
-                      <span className="font-semibold uppercase tracking-wide text-orange-100">Nunca solicitamos pagos, depósitos ni inversiones para contratar.</span>{' '}
-                      Si recibes un mensaje sospechoso, no pagues y repórtalo.
-                    </AlertDescription>
-                  </Alert>
-                </div>
-              </div>
-
               {/* Section 1: Hero - pin: true */}
               <HeroSection className="z-10" />
               
