@@ -9,13 +9,10 @@ interface ShowcaseSectionProps {
 }
 
 const row1 = [
-  "/images/case-card-1.jpg",
-  "/images/split-creator.jpg",
-  "/images/stage-host.jpg",
-  "/images/hook-star.jpg",
+  "/images/oliver.png",
+  "/images/monse.png",
+  "/images/mari.png",
   "/images/case-card-2.jpg",
-  "/images/hook-global.jpg",
-  "/images/case-card-3.jpg",
 ];
 
 const PhotoStrip = ({ images, direction }: { images: string[]; direction: "left" | "right" }) => {
