@@ -11,6 +11,7 @@ interface ShowcaseSectionProps {
 const row1 = [
   "/images/oliver.png",
   "/images/mari.png",
+  "/images/mar.png",
   "/images/kenn.jpg",
   "/images/monse.png",
 ];
